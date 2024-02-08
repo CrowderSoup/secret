@@ -1,41 +1,51 @@
 import type { MetaFunction } from "@vercel/remix";
+import { useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "Secret" },
+    { name: "description", content: "encode and decode messages" },
   ];
 };
 
 export default function Index() {
+  const [message, setMessage] = useState("");
+
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
+    <div className="flex justify-center">
+      <div className="flex flex-col gap-4 w-9/12">
+        <textarea
+          className="rounded-md border border-gray-300 p-2 h-24 resize-none"
+          value={message}
+          onChange={(e) => {
+            setMessage(e.target.value);
+          }}
+        ></textarea>
+        <div className="flex justify-between">
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded-md disabled:opacity-50 hover:bg-blue-700 focus:outline-none"
+            onClick={(e) => {
+              e.preventDefault();
+              // base64 encode message
+              const encoded = btoa(message);
+              setMessage(encoded);
+            }}
           >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
+            Encode
+          </button>
+          <button
+            className="bg-green-500 text-white py-2 px-4 rounded-md disabled:opacity-50 hover:bg-green-700 focus:outline-none"
+            onClick={(e) => {
+              e.preventDefault();
+              // base64 decode message
+              const decoded = atob(message);
+              setMessage(decoded);
+            }}
           >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+            Decode
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

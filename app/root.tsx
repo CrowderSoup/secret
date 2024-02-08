@@ -1,4 +1,3 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
 import {
   Links,
   LiveReload,
@@ -10,9 +9,9 @@ import {
 import { Analytics } from "@vercel/analytics/react";
 import type { LinksFunction } from "@vercel/remix";
 
-export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
-];
+import styles from "./tailwind.css";
+
+export const links: LinksFunction = () => [{ href: styles, rel: "stylesheet" }];
 
 export default function App() {
   return (
@@ -24,6 +23,9 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <header className="flex justify-center">
+          <h1 className="text-4xl">Secret</h1>
+        </header>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
